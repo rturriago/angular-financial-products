@@ -1,6 +1,5 @@
 import { Product } from '../models/product.model';
 
-/** Builds a valid product for tests. Override only the fields relevant to each test. */
 export function buildProduct(overrides: Partial<Product> = {}): Product {
   return {
     id: 'trj-crd',
