@@ -1,0 +1,43 @@
+<div class="product-table">
+  <table class="product-table__table">
+    <thead>
+      <tr>
+        <th class="product-table__header product-table__header--center" scope="col">Logo</th>
+        <th class="product-table__header" scope="col">Nombre del producto</th>
+        <th class="product-table__header" scope="col">
+          Descripción
+          <span class="product-table__info" title="Descripción del producto">i</span>
+        </th>
+        <th class="product-table__header" scope="col">
+          Fecha de liberación
+          <span class="product-table__info" title="Fecha en que el producto se libera al público"
+            >i</span
+          >
+        </th>
+        <th class="product-table__header" scope="col">
+          Fecha de reestructuración
+          <span class="product-table__info" title="Fecha de revisión de términos y condiciones"
+            >i</span
+          >
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (product of products(); track product.id) {
+        <tr class="product-table__row">
+          <td class="product-table__cell product-table__cell--center">
+            <app-product-logo [logo]="product.logo" [name]="product.name" />
+          </td>
+          <td class="product-table__cell">{{ product.name }}</td>
+          <td class="product-table__cell">{{ product.description }}</td>
+          <td class="product-table__cell">{{ product.date_release | date: 'dd/MM/yyyy' }}</td>
+          <td class="product-table__cell">{{ product.date_revision | date: 'dd/MM/yyyy' }}</td>
+        </tr>
+      } @empty {
+        <tr>
+          <td class="product-table__empty" colspan="5">No hay productos para mostrar.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

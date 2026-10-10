@@ -1,0 +1,11 @@
+@if (showImage()) {
+  <img class="product-logo" [src]="logo()" [alt]="'Logo de ' + name()" (error)="onImageError()" />
+} @else {
+  <span
+    class="product-logo product-logo--initials"
+    role="img"
+    [attr.aria-label]="'Logo de ' + name()"
+  >
+    {{ initials() }}
+  </span>
+}

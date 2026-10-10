@@ -1,0 +1,16 @@
+<section class="product-list">
+  <div class="product-list__card">
+    @if (isLoading()) {
+      <p class="product-list__status" role="status">Cargando productos...</p>
+    } @else if (errorMessage()) {
+      <div class="product-list__error" role="alert">
+        <p>{{ errorMessage() }}</p>
+        <button class="product-list__retry" type="button" (click)="loadProducts()">
+          Reintentar
+        </button>
+      </div>
+    } @else {
+      <app-product-table [products]="products()" />
+    }
+  </div>
+</section>
