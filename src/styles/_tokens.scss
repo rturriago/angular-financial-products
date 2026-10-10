@@ -1,0 +1,42 @@
+// Design tokens taken from designs D1–D4 of the challenge.
+// Exposed as CSS custom properties so every component can use them without imports.
+:root {
+  // Brand
+  --color-primary: #ffdd00;
+  --color-primary-hover: #f2d200;
+  --color-primary-text: #1d2b5a;
+  --color-brand: #1d2b5a;
+
+  // Neutrals
+  --color-background: #f4f5f9;
+  --color-surface: #ffffff;
+  --color-secondary: #e9ecf3;
+  --color-secondary-hover: #dde1eb;
+  --color-border: #d6d9e0;
+  --color-text: #2b2f38;
+  --color-text-muted: #6b7180;
+  --color-disabled-bg: #f1f2f5;
+
+  // Feedback
+  --color-error: #e53935;
+  --color-success: #2e7d32;
+
+  // Typography
+  --font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-size-sm: 0.8125rem;
+  --font-size-md: 0.9375rem;
+  --font-size-lg: 1.5rem;
+
+  // Spacing (4px scale)
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  // Shapes
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --shadow-overlay: 0 8px 24px rgb(0 0 0 / 12%);
+}
