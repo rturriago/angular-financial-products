@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { of, Subject, throwError } from 'rxjs';
 import { ApiError } from '../../../../core/http/api-error';
+import { NotificationService } from '../../../../core/notifications/notification.service';
 import { ProductFormComponent } from '../../components/product-form/product-form.component';
 import { ProductRepository } from '../../data-access/product.repository';
 import { Product } from '../../models/product.model';
@@ -38,13 +39,19 @@ describe('CreateProductPage', () => {
     fixture.detectChanges();
   }
 
-  it('should create the product and go back to the list', () => {
-    const product = buildProduct({ id: 'nuevo' });
+  it('should create the product, notify the success and go back to the list', () => {
+    const notificationSpy = jest
+      .spyOn(TestBed.inject(NotificationService), 'success')
+      .mockImplementation(() => undefined);
+    const product = buildProduct({ id: 'nuevo', name: 'Tarjeta Platinum' });
     repositoryMock.create.mockReturnValue(of(product));
 
     submitFromForm(product);
 
     expect(repositoryMock.create).toHaveBeenCalledWith(product);
+    expect(notificationSpy).toHaveBeenCalledWith(
+      'Producto "Tarjeta Platinum" agregado correctamente',
+    );
     expect(router.navigateByUrl).toHaveBeenCalledWith('/products');
   });
 

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
+import { NotificationService } from '../../../../core/notifications/notification.service';
 import { ProductFormComponent } from '../../components/product-form/product-form.component';
 import { ProductRepository } from '../../data-access/product.repository';
 import { Product } from '../../models/product.model';
@@ -15,6 +16,7 @@ import { Product } from '../../models/product.model';
 export class CreateProductPage {
   private readonly productRepository = inject(ProductRepository);
   private readonly router = inject(Router);
+  private readonly notificationService = inject(NotificationService);
 
   readonly isSubmitting = signal(false);
   readonly errorMessage = signal<string | null>(null);
@@ -27,7 +29,12 @@ export class CreateProductPage {
       .create(product)
       .pipe(finalize(() => this.isSubmitting.set(false)))
       .subscribe({
-        next: () => this.router.navigateByUrl('/products'),
+        next: (createdProduct) => {
+          this.notificationService.success(
+            `Producto "${createdProduct.name}" agregado correctamente`,
+          );
+          this.router.navigateByUrl('/products');
+        },
         error: (error: Error) => this.errorMessage.set(error.message),
       });
   }

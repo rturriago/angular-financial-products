@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { of, Subject, throwError } from 'rxjs';
 import { ApiError } from '../../../../core/http/api-error';
+import { NotificationService } from '../../../../core/notifications/notification.service';
 import { ProductFormComponent } from '../../components/product-form/product-form.component';
 import { ProductRepository } from '../../data-access/product.repository';
 import { Product } from '../../models/product.model';
@@ -72,7 +73,10 @@ describe('EditProductPage', () => {
     expect(element.querySelector('app-product-form')).toBeNull();
   });
 
-  it('should send the changes without the id and go back to the list', () => {
+  it('should send the changes without the id, notify the success and go back to the list', () => {
+    const notificationSpy = jest
+      .spyOn(TestBed.inject(NotificationService), 'success')
+      .mockImplementation(() => undefined);
     repositoryMock.getById.mockReturnValue(of(product));
     repositoryMock.update.mockReturnValue(of({ ...product, name: 'Tarjeta Oro' }));
     render();
@@ -81,6 +85,9 @@ describe('EditProductPage', () => {
 
     const { id, ...changes } = product;
     expect(repositoryMock.update).toHaveBeenCalledWith(id, { ...changes, name: 'Tarjeta Oro' });
+    expect(notificationSpy).toHaveBeenCalledWith(
+      'Producto "Tarjeta Oro" actualizado correctamente',
+    );
     expect(router.navigateByUrl).toHaveBeenCalledWith('/products');
   });
 

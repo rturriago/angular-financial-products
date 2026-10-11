@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
+import { NotificationService } from '../../../../core/notifications/notification.service';
 import { ProductFormComponent } from '../../components/product-form/product-form.component';
 import { ProductRepository } from '../../data-access/product.repository';
 import { Product } from '../../models/product.model';
@@ -15,6 +16,7 @@ import { Product } from '../../models/product.model';
 export class EditProductPage implements OnInit {
   private readonly productRepository = inject(ProductRepository);
   private readonly router = inject(Router);
+  private readonly notificationService = inject(NotificationService);
 
   readonly id = input.required<string>();
 
@@ -37,7 +39,12 @@ export class EditProductPage implements OnInit {
       .update(id, changes)
       .pipe(finalize(() => this.isSubmitting.set(false)))
       .subscribe({
-        next: () => this.router.navigateByUrl('/products'),
+        next: (updatedProduct) => {
+          this.notificationService.success(
+            `Producto "${updatedProduct.name}" actualizado correctamente`,
+          );
+          this.router.navigateByUrl('/products');
+        },
         error: (error: Error) => this.saveErrorMessage.set(error.message),
       });
   }
