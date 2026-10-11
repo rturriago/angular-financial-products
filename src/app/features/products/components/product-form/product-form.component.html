@@ -1,0 +1,106 @@
+<form class="product-form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+  <h1 class="product-form__title">Formulario de Registro</h1>
+
+  <div class="product-form__grid">
+    <app-form-field
+      label="ID"
+      fieldId="id"
+      [error]="errorFor('id')"
+      [hint]="form.controls.id.pending ? 'Verificando ID...' : null"
+    >
+      <input
+        id="id"
+        class="product-form__input"
+        type="text"
+        formControlName="id"
+        [class.product-form__input--invalid]="isInvalid('id')"
+        [attr.aria-invalid]="isInvalid('id')"
+        [attr.aria-describedby]="isInvalid('id') ? 'id-error' : null"
+      />
+    </app-form-field>
+
+    <app-form-field label="Nombre" fieldId="name" [error]="errorFor('name')">
+      <input
+        id="name"
+        class="product-form__input"
+        type="text"
+        formControlName="name"
+        [class.product-form__input--invalid]="isInvalid('name')"
+        [attr.aria-invalid]="isInvalid('name')"
+        [attr.aria-describedby]="isInvalid('name') ? 'name-error' : null"
+      />
+    </app-form-field>
+
+    <app-form-field label="Descripción" fieldId="description" [error]="errorFor('description')">
+      <input
+        id="description"
+        class="product-form__input"
+        type="text"
+        formControlName="description"
+        [class.product-form__input--invalid]="isInvalid('description')"
+        [attr.aria-invalid]="isInvalid('description')"
+        [attr.aria-describedby]="isInvalid('description') ? 'description-error' : null"
+      />
+    </app-form-field>
+
+    <app-form-field label="Logo" fieldId="logo" [error]="errorFor('logo')">
+      <input
+        id="logo"
+        class="product-form__input"
+        type="url"
+        formControlName="logo"
+        placeholder="https://..."
+        [class.product-form__input--invalid]="isInvalid('logo')"
+        [attr.aria-invalid]="isInvalid('logo')"
+        [attr.aria-describedby]="isInvalid('logo') ? 'logo-error' : null"
+      />
+    </app-form-field>
+
+    <app-form-field
+      label="Fecha Liberación"
+      fieldId="date_release"
+      [error]="errorFor('date_release')"
+    >
+      <input
+        id="date_release"
+        class="product-form__input"
+        type="date"
+        formControlName="date_release"
+        [class.product-form__input--invalid]="isInvalid('date_release')"
+        [attr.aria-invalid]="isInvalid('date_release')"
+        [attr.aria-describedby]="isInvalid('date_release') ? 'date_release-error' : null"
+      />
+    </app-form-field>
+
+    <app-form-field
+      label="Fecha Revisión"
+      fieldId="date_revision"
+      hint="Se calcula un año después de la fecha de liberación"
+    >
+      <input
+        id="date_revision"
+        class="product-form__input"
+        type="date"
+        formControlName="date_revision"
+      />
+    </app-form-field>
+  </div>
+
+  <div class="product-form__actions">
+    <button
+      class="product-form__button product-form__button--secondary"
+      type="button"
+      [disabled]="isSubmitting()"
+      (click)="onReset()"
+    >
+      Reiniciar
+    </button>
+    <button
+      class="product-form__button product-form__button--primary"
+      type="submit"
+      [disabled]="isSubmitting() || form.pending"
+    >
+      {{ isSubmitting() ? 'Enviando...' : 'Enviar' }}
+    </button>
+  </div>
+</form>

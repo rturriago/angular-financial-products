@@ -1,0 +1,11 @@
+<div class="form-field">
+  <label class="form-field__label" [for]="fieldId()">{{ label() }}</label>
+  <ng-content />
+  @if (error()) {
+    <p class="form-field__message form-field__message--error" [id]="fieldId() + '-error'">
+      {{ error() }}
+    </p>
+  } @else if (hint()) {
+    <p class="form-field__message">{{ hint() }}</p>
+  }
+</div>

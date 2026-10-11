@@ -1,0 +1,20 @@
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+
+  &__label {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+  }
+
+  &__message {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+
+    &--error {
+      color: var(--color-error);
+    }
+  }
+}
