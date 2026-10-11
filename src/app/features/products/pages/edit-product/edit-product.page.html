@@ -1,0 +1,22 @@
+<section class="edit-product">
+  <a class="edit-product__back" routerLink="/products">← Volver al listado</a>
+
+  <div class="edit-product__card">
+    @if (isLoading()) {
+      <p class="edit-product__status" role="status">Cargando producto...</p>
+    } @else if (loadErrorMessage()) {
+      <p class="edit-product__error" role="alert">{{ loadErrorMessage() }}</p>
+    } @else if (product(); as product) {
+      @if (saveErrorMessage()) {
+        <p class="edit-product__error" role="alert">{{ saveErrorMessage() }}</p>
+      }
+      <app-product-form
+        title="Editar Producto"
+        [initialProduct]="product"
+        [lockId]="true"
+        [isSubmitting]="isSubmitting()"
+        (submitted)="updateProduct($event)"
+      />
+    }
+  </div>
+</section>

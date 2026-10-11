@@ -1,5 +1,5 @@
 <form class="product-form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
-  <h1 class="product-form__title">Formulario de Registro</h1>
+  <h1 class="product-form__title">{{ title() }}</h1>
 
   <div class="product-form__grid">
     <app-form-field

@@ -16,5 +16,12 @@ export const routes: Routes = [
         (module) => module.CreateProductPage,
       ),
   },
+  {
+    path: 'products/:id/edit',
+    loadComponent: () =>
+      import('./features/products/pages/edit-product/edit-product.page').then(
+        (module) => module.EditProductPage,
+      ),
+  },
   { path: '**', redirectTo: 'products' },
 ];

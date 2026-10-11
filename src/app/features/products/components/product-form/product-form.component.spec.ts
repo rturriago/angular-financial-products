@@ -156,4 +156,62 @@ describe('ProductFormComponent', () => {
     expect(Array.from(buttons).every((button) => button.disabled)).toBe(true);
     expect(element.textContent).toContain('Enviando...');
   });
+
+  describe('when editing an existing product', () => {
+    const existingProduct: Product = {
+      id: 'trj-crd',
+      name: 'Tarjeta de Crédito',
+      description: 'Tarjeta de consumo bajo la modalidad de crédito',
+      logo: 'https://example.com/logo.png',
+      date_release: '2025-07-01',
+      date_revision: '2026-07-01',
+    };
+
+    beforeEach(() => {
+      fixture.componentRef.setInput('title', 'Editar Producto');
+      fixture.componentRef.setInput('lockId', true);
+      fixture.componentRef.setInput('initialProduct', existingProduct);
+      fixture.detectChanges();
+    });
+
+    it('should show the custom title and the product data', () => {
+      expect(element.querySelector('h1')?.textContent?.trim()).toBe('Editar Producto');
+      expect(input('id').value).toBe('trj-crd');
+      expect(input('name').value).toBe('Tarjeta de Crédito');
+      expect(input('date_revision').value).toBe('2026-07-01');
+    });
+
+    it('should keep the id disabled and skip the uniqueness check', () => {
+      jest.advanceTimersByTime(PRODUCT_ID_CHECK_DEBOUNCE_MS);
+
+      expect(input('id').disabled).toBe(true);
+      expect(repositoryMock.existsById).not.toHaveBeenCalled();
+    });
+
+    it('should restore the original values when resetting', () => {
+      type('name', 'Nombre cambiado');
+
+      element.querySelector<HTMLButtonElement>('.product-form__button--secondary')!.click();
+      fixture.detectChanges();
+
+      expect(input('name').value).toBe('Tarjeta de Crédito');
+    });
+
+    it('should emit the edited product including its locked id', () => {
+      let emitted: Product | undefined;
+      component.submitted.subscribe((product) => (emitted = product));
+      type('name', 'Tarjeta Oro');
+
+      submit();
+
+      expect(emitted).toEqual({ ...existingProduct, name: 'Tarjeta Oro' });
+    });
+
+    it('should enable the id again when it is unlocked', () => {
+      fixture.componentRef.setInput('lockId', false);
+      fixture.detectChanges();
+
+      expect(input('id').disabled).toBe(false);
+    });
+  });
 });

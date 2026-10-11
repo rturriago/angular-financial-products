@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  effect,
   inject,
   input,
   output,
@@ -30,6 +31,9 @@ export class ProductFormComponent {
   private readonly uniqueProductIdValidator = inject(UniqueProductIdValidator);
   private readonly changeDetector = inject(ChangeDetectorRef);
 
+  readonly title = input('Formulario de Registro');
+  readonly initialProduct = input<Product | null>(null);
+  readonly lockId = input(false);
   readonly isSubmitting = input(false);
   readonly submitted = output<Product>();
 
@@ -81,6 +85,11 @@ export class ProductFormComponent {
       .subscribe((releaseDate) => this.updateRevisionDate(releaseDate));
 
     this.form.events.pipe(takeUntilDestroyed()).subscribe(() => this.changeDetector.markForCheck());
+
+    effect(() => {
+      this.applyIdLock(this.lockId());
+      this.restoreInitialValues();
+    });
   }
 
   isInvalid(field: ProductField): boolean {
@@ -109,7 +118,20 @@ export class ProductFormComponent {
   }
 
   onReset(): void {
-    this.form.reset();
+    this.restoreInitialValues();
+  }
+
+  private restoreInitialValues(): void {
+    this.form.reset(this.initialProduct() ?? undefined);
+  }
+
+  private applyIdLock(isLocked: boolean): void {
+    const idControl = this.form.controls.id;
+    if (isLocked) {
+      idControl.disable({ emitEvent: false });
+    } else {
+      idControl.enable({ emitEvent: false });
+    }
   }
 
   private updateRevisionDate(releaseDate: string): void {
