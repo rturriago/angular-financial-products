@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { of, Subject, throwError } from 'rxjs';
 import { ApiError } from '../../../../core/http/api-error';
 import { ProductRepository } from '../../data-access/product.repository';
@@ -34,6 +34,19 @@ describe('ProductListPage', () => {
 
     expect(repositoryMock.getAll).toHaveBeenCalledTimes(1);
     expect(element.textContent).toContain('Cuenta de Ahorros');
+  });
+
+  it('should navigate to the edit page when a product is edited', () => {
+    repositoryMock.getAll.mockReturnValue(of([buildProduct({ id: 'trj-crd' })]));
+    const router = TestBed.inject(Router);
+    const navigateSpy = jest.spyOn(router, 'navigate').mockResolvedValue(true);
+    const element = render();
+
+    element.querySelector<HTMLButtonElement>('.dropdown-menu__trigger')!.click();
+    fixture.detectChanges();
+    element.querySelector<HTMLButtonElement>('[role="menuitem"]')!.click();
+
+    expect(navigateSpy).toHaveBeenCalledWith(['/products', 'trj-crd', 'edit']);
   });
 
   it('should link the add button to the creation form', () => {

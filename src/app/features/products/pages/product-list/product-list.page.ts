@@ -6,7 +6,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { PageSizeSelectComponent } from '../../../../shared/ui/page-size-select/page-size-select.component';
 import { SearchBoxComponent } from '../../../../shared/ui/search-box/search-box.component';
@@ -25,6 +25,7 @@ import { DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS, PageSize } from './product-list.c
 })
 export class ProductListPage implements OnInit {
   private readonly productRepository = inject(ProductRepository);
+  private readonly router = inject(Router);
 
   readonly pageSizeOptions = PAGE_SIZE_OPTIONS;
 
@@ -55,5 +56,9 @@ export class ProductListPage implements OnInit {
         next: (products) => this.products.set(products),
         error: (error: Error) => this.errorMessage.set(error.message),
       });
+  }
+
+  editProduct(product: Product): void {
+    this.router.navigate(['/products', product.id, 'edit']);
   }
 }

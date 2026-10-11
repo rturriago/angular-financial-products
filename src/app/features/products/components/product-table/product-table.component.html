@@ -20,6 +20,9 @@
             >i</span
           >
         </th>
+        <th class="product-table__header" scope="col">
+          <span class="visually-hidden">Acciones</span>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -32,10 +35,17 @@
           <td class="product-table__cell">{{ product.description }}</td>
           <td class="product-table__cell">{{ product.date_release | date: 'dd/MM/yyyy' }}</td>
           <td class="product-table__cell">{{ product.date_revision | date: 'dd/MM/yyyy' }}</td>
+          <td class="product-table__cell product-table__cell--actions">
+            <app-dropdown-menu
+              [items]="productActions"
+              [ariaLabel]="'Acciones para ' + product.name"
+              (itemSelected)="onActionSelected($event, product)"
+            />
+          </td>
         </tr>
       } @empty {
         <tr>
-          <td class="product-table__empty" colspan="5">No hay productos para mostrar.</td>
+          <td class="product-table__empty" colspan="6">No hay productos para mostrar.</td>
         </tr>
       }
     </tbody>

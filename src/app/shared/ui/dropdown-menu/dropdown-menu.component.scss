@@ -1,0 +1,56 @@
+:host {
+  display: inline-flex;
+}
+
+.dropdown-menu {
+  &__trigger {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    color: var(--color-text-muted);
+    background: none;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &:hover,
+    &[aria-expanded='true'] {
+      background-color: var(--color-secondary);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-brand);
+    }
+  }
+
+  &__list {
+    position: fixed;
+    z-index: 10;
+    min-width: 8rem;
+    margin: 0;
+    padding: var(--space-1) 0;
+    list-style: none;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-overlay);
+  }
+
+  &__item {
+    width: 100%;
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--font-size-sm);
+    text-align: left;
+    color: var(--color-text);
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      background-color: var(--color-background);
+      outline: none;
+    }
+  }
+}

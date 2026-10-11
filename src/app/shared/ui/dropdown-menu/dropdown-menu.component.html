@@ -1,0 +1,28 @@
+<button
+  #trigger
+  class="dropdown-menu__trigger"
+  type="button"
+  aria-haspopup="menu"
+  [attr.aria-expanded]="isOpen()"
+  [attr.aria-label]="ariaLabel()"
+  (click)="toggle(trigger)"
+>
+  <span aria-hidden="true">⋮</span>
+</button>
+
+@if (isOpen()) {
+  <ul
+    class="dropdown-menu__list"
+    role="menu"
+    [style.top.px]="position().top"
+    [style.right.px]="position().right"
+  >
+    @for (item of items(); track item.id) {
+      <li role="none">
+        <button class="dropdown-menu__item" type="button" role="menuitem" (click)="select(item)">
+          {{ item.label }}
+        </button>
+      </li>
+    }
+  </ul>
+}

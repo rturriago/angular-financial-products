@@ -15,7 +15,7 @@
         </button>
       </div>
     } @else {
-      <app-product-table [products]="visibleProducts()" />
+      <app-product-table [products]="visibleProducts()" (edit)="editProduct($event)" />
 
       <footer class="product-list__footer">
         <span class="product-list__count" aria-live="polite">{{ resultsCount() }} Resultados</span>

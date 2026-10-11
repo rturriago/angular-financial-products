@@ -36,6 +36,29 @@ describe('ProductTableComponent', () => {
     expect(rowText).toContain('01/01/2026');
   });
 
+  it('should emit the product when its edit action is selected', () => {
+    const product = buildProduct({ id: 'uno' });
+    const edited: Product[] = [];
+    const element = render([product]);
+    fixture.componentInstance.edit.subscribe((selected) => edited.push(selected));
+
+    element.querySelector<HTMLButtonElement>('.dropdown-menu__trigger')!.click();
+    fixture.detectChanges();
+    element.querySelector<HTMLButtonElement>('[role="menuitem"]')!.click();
+
+    expect(edited).toEqual([product]);
+  });
+
+  it('should ignore unknown actions', () => {
+    const edited: Product[] = [];
+    render([buildProduct()]);
+    fixture.componentInstance.edit.subscribe((selected) => edited.push(selected));
+
+    fixture.componentInstance.onActionSelected('unknown', buildProduct());
+
+    expect(edited).toEqual([]);
+  });
+
   it('should show an empty message when there are no products', () => {
     const element = render([]);
 
