@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { of, Subject, throwError } from 'rxjs';
 import { ApiError } from '../../../../core/http/api-error';
 import { ProductRepository } from '../../data-access/product.repository';
@@ -20,7 +21,7 @@ describe('ProductListPage', () => {
 
     TestBed.configureTestingModule({
       imports: [ProductListPage],
-      providers: [{ provide: ProductRepository, useValue: repositoryMock }],
+      providers: [provideRouter([]), { provide: ProductRepository, useValue: repositoryMock }],
     });
   });
 
@@ -37,6 +38,15 @@ describe('ProductListPage', () => {
 
     expect(repositoryMock.getAll).toHaveBeenCalledTimes(1);
     expect(element.textContent).toContain('Cuenta de Ahorros');
+  });
+
+  it('should link the add button to the creation form', () => {
+    repositoryMock.getAll.mockReturnValue(of([]));
+
+    const addLink = render().querySelector('.product-list__add');
+
+    expect(addLink?.textContent?.trim()).toBe('Agregar');
+    expect(addLink?.getAttribute('href')).toBe('/products/new');
   });
 
   it('should show a loading message while the products are being fetched', () => {

@@ -11,6 +11,20 @@
     margin-bottom: var(--space-6);
   }
 
+  &__add {
+    padding: var(--space-2) var(--space-6);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-primary-text);
+    text-decoration: none;
+    background-color: var(--color-primary);
+    border-radius: var(--radius-sm);
+
+    &:hover {
+      background-color: var(--color-primary-hover);
+    }
+  }
+
   &__card {
     padding: var(--space-6);
     background-color: var(--color-surface);

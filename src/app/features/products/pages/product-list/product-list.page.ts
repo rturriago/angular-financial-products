@@ -6,6 +6,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { PageSizeSelectComponent } from '../../../../shared/ui/page-size-select/page-size-select.component';
 import { SearchBoxComponent } from '../../../../shared/ui/search-box/search-box.component';
@@ -17,7 +18,7 @@ import { DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS, PageSize } from './product-list.c
 
 @Component({
   selector: 'app-product-list-page',
-  imports: [ProductTableComponent, SearchBoxComponent, PageSizeSelectComponent],
+  imports: [ProductTableComponent, SearchBoxComponent, PageSizeSelectComponent, RouterLink],
   templateUrl: './product-list.page.html',
   styleUrl: './product-list.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,0 +1,10 @@
+<section class="create-product">
+  <a class="create-product__back" routerLink="/products">← Volver al listado</a>
+
+  <div class="create-product__card">
+    @if (errorMessage()) {
+      <p class="create-product__error" role="alert">{{ errorMessage() }}</p>
+    }
+    <app-product-form [isSubmitting]="isSubmitting()" (submitted)="createProduct($event)" />
+  </div>
+</section>

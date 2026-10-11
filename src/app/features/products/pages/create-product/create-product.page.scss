@@ -1,0 +1,33 @@
+.create-product {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-4);
+
+  &__back {
+    display: inline-block;
+    margin-bottom: var(--space-4);
+    font-size: var(--font-size-sm);
+    color: var(--color-brand);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__card {
+    padding: var(--space-8) var(--space-6);
+    background-color: var(--color-surface);
+    border-radius: var(--radius-md);
+  }
+
+  &__error {
+    margin: 0 0 var(--space-6);
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--font-size-sm);
+    color: var(--color-error);
+    background-color: rgb(229 57 53 / 8%);
+    border: 1px solid var(--color-error);
+    border-radius: var(--radius-sm);
+  }
+}

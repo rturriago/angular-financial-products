@@ -9,5 +9,12 @@ export const routes: Routes = [
         (module) => module.ProductListPage,
       ),
   },
+  {
+    path: 'products/new',
+    loadComponent: () =>
+      import('./features/products/pages/create-product/create-product.page').then(
+        (module) => module.CreateProductPage,
+      ),
+  },
   { path: '**', redirectTo: 'products' },
 ];
