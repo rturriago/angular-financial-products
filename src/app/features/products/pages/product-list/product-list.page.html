@@ -1,4 +1,8 @@
 <section class="product-list">
+  <div class="product-list__toolbar">
+    <app-search-box [(value)]="searchTerm" label="Buscar productos" />
+  </div>
+
   <div class="product-list__card">
     @if (isLoading()) {
       <p class="product-list__status" role="status">Cargando productos...</p>
@@ -10,7 +14,12 @@
         </button>
       </div>
     } @else {
-      <app-product-table [products]="products()" />
+      <app-product-table [products]="visibleProducts()" />
+
+      <footer class="product-list__footer">
+        <span class="product-list__count" aria-live="polite">{{ resultsCount() }} Resultados</span>
+        <app-page-size-select [options]="pageSizeOptions" [(value)]="pageSize" />
+      </footer>
     }
   </div>
 </section>

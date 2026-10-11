@@ -1,0 +1,5 @@
+<select class="page-size-select" aria-label="Cantidad de registros" (change)="onChange($event)">
+  @for (option of options(); track option) {
+    <option [value]="option" [selected]="option === value()">{{ option }}</option>
+  }
+</select>

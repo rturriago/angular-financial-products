@@ -77,4 +77,54 @@ describe('ProductListPage', () => {
     expect(element.querySelector('[role="alert"]')).toBeNull();
     expect(element.textContent).toContain('Préstamo Vehicular');
   });
+
+  describe('search and page size', () => {
+    const manyProducts = Array.from({ length: 12 }, (_, index) =>
+      buildProduct({ id: `prd-${index}`, name: `Producto ${index}` }),
+    );
+
+    function rowCount(element: HTMLElement): number {
+      return element.querySelectorAll('tbody tr.product-table__row').length;
+    }
+
+    function resultsText(element: HTMLElement): string | undefined {
+      return element.querySelector('.product-list__count')?.textContent?.trim();
+    }
+
+    beforeEach(() => {
+      repositoryMock.getAll.mockReturnValue(of(manyProducts));
+    });
+
+    it('should show 5 products by default with its results count', () => {
+      const element = render();
+
+      expect(rowCount(element)).toBe(5);
+      expect(resultsText(element)).toBe('5 Resultados');
+    });
+
+    it('should show more products when a bigger page size is selected', () => {
+      const element = render();
+      const select = element.querySelector<HTMLSelectElement>('select')!;
+
+      select.value = '10';
+      select.dispatchEvent(new Event('change'));
+      fixture.detectChanges();
+
+      expect(rowCount(element)).toBe(10);
+      expect(resultsText(element)).toBe('10 Resultados');
+    });
+
+    it('should filter the products with the search term', () => {
+      const element = render();
+      const searchInput = element.querySelector<HTMLInputElement>('input[type="search"]')!;
+
+      searchInput.value = 'producto 11';
+      searchInput.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+
+      expect(rowCount(element)).toBe(1);
+      expect(element.textContent).toContain('Producto 11');
+      expect(resultsText(element)).toBe('1 Resultados');
+    });
+  });
 });
