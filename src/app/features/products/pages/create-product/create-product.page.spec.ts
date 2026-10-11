@@ -7,6 +7,7 @@ import { ProductRepository } from '../../data-access/product.repository';
 import { Product } from '../../models/product.model';
 import { buildProduct } from '../../testing/product.fixtures';
 import { CreateProductPage } from './create-product.page';
+import { createProductRepositoryMock } from '../../testing/product-repository.mock';
 
 describe('CreateProductPage', () => {
   let fixture: ComponentFixture<CreateProductPage>;
@@ -15,12 +16,8 @@ describe('CreateProductPage', () => {
   let router: Router;
 
   beforeEach(() => {
-    repositoryMock = {
-      getAll: jest.fn(),
-      create: jest.fn(),
-      update: jest.fn(),
-      existsById: jest.fn().mockReturnValue(of(false)),
-    };
+    repositoryMock = createProductRepositoryMock();
+    repositoryMock.existsById.mockReturnValue(of(false));
     TestBed.configureTestingModule({
       imports: [CreateProductPage],
       providers: [provideRouter([]), { provide: ProductRepository, useValue: repositoryMock }],

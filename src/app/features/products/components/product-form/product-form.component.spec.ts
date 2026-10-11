@@ -4,6 +4,7 @@ import { ProductRepository } from '../../data-access/product.repository';
 import { Product } from '../../models/product.model';
 import { PRODUCT_ID_CHECK_DEBOUNCE_MS } from '../../validators/unique-product-id.validator';
 import { ProductFormComponent } from './product-form.component';
+import { createProductRepositoryMock } from '../../testing/product-repository.mock';
 
 describe('ProductFormComponent', () => {
   let fixture: ComponentFixture<ProductFormComponent>;
@@ -13,12 +14,8 @@ describe('ProductFormComponent', () => {
 
   beforeEach(() => {
     jest.useFakeTimers().setSystemTime(new Date(2025, 5, 15));
-    repositoryMock = {
-      getAll: jest.fn(),
-      create: jest.fn(),
-      update: jest.fn(),
-      existsById: jest.fn().mockReturnValue(of(false)),
-    };
+    repositoryMock = createProductRepositoryMock();
+    repositoryMock.existsById.mockReturnValue(of(false));
     TestBed.configureTestingModule({
       imports: [ProductFormComponent],
       providers: [{ provide: ProductRepository, useValue: repositoryMock }],

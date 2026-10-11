@@ -2,6 +2,7 @@ import { HttpErrorResponse, provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { environment } from '../../../../environments/environment';
+import { ApiError } from '../../../core/http/api-error';
 import { buildProduct } from '../testing/product.fixtures';
 import { ProductHttpRepository } from './product-http.repository';
 
@@ -32,6 +33,26 @@ describe('ProductHttpRepository', () => {
 
     expect(request.request.method).toBe('GET');
     expect(result).toEqual(products);
+  });
+
+  it('should get a product by id searching the full list', () => {
+    const wanted = buildProduct({ id: 'dos' });
+    let result: unknown;
+
+    repository.getById('dos').subscribe((response) => (result = response));
+    httpMock.expectOne(baseUrl).flush({ data: [buildProduct({ id: 'uno' }), wanted] });
+
+    expect(result).toEqual(wanted);
+  });
+
+  it('should fail with an ApiError 404 when the id is not in the list', () => {
+    let error: ApiError | undefined;
+
+    repository.getById('tres').subscribe({ error: (err: ApiError) => (error = err) });
+    httpMock.expectOne(baseUrl).flush({ data: [buildProduct({ id: 'uno' })] });
+
+    expect(error).toBeInstanceOf(ApiError);
+    expect(error?.status).toBe(404);
   });
 
   it('should create a product sending it in the body', () => {

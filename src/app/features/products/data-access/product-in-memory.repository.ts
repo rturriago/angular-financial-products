@@ -63,6 +63,11 @@ export class ProductInMemoryRepository implements ProductRepository {
     return of(this.products.map((product) => ({ ...product })));
   }
 
+  getById(id: string): Observable<Product> {
+    const product = this.products.find((candidate) => candidate.id === id);
+    return product ? of({ ...product }) : this.fail(404);
+  }
+
   create(product: Product): Observable<Product> {
     if (this.hasProduct(product.id)) {
       return this.fail(400);

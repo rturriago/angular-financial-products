@@ -6,6 +6,7 @@ import {
   PRODUCT_ID_CHECK_DEBOUNCE_MS,
   UniqueProductIdValidator,
 } from './unique-product-id.validator';
+import { createProductRepositoryMock } from '../testing/product-repository.mock';
 
 describe('UniqueProductIdValidator', () => {
   let validator: UniqueProductIdValidator;
@@ -13,12 +14,7 @@ describe('UniqueProductIdValidator', () => {
 
   beforeEach(() => {
     jest.useFakeTimers();
-    repositoryMock = {
-      getAll: jest.fn(),
-      create: jest.fn(),
-      update: jest.fn(),
-      existsById: jest.fn(),
-    };
+    repositoryMock = createProductRepositoryMock();
     TestBed.configureTestingModule({
       providers: [{ provide: ProductRepository, useValue: repositoryMock }],
     });

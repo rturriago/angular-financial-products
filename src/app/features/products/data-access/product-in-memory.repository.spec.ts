@@ -21,6 +21,18 @@ describe('ProductInMemoryRepository', () => {
     expect(products.length).toBeGreaterThan(0);
   });
 
+  it('should get an existing product by id', async () => {
+    const product = await firstValueFrom(repository.getById('trj-crd'));
+
+    expect(product.id).toBe('trj-crd');
+  });
+
+  it('should fail with status 404 when getting a missing product', async () => {
+    await expect(firstValueFrom(repository.getById('no-existe'))).rejects.toMatchObject({
+      status: 404,
+    });
+  });
+
   it('should create a product and include it in the list', async () => {
     const product = buildProduct({ id: 'nuevo' });
 

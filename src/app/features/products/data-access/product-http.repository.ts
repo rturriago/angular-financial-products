@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { ApiError, getErrorMessageForStatus } from '../../../core/http/api-error';
 import { ApiResponse } from '../../../core/http/api-response.model';
 import { Product, UpdateProductRequest } from '../models/product.model';
 import { ProductRepository } from './product.repository';
@@ -15,6 +16,18 @@ export class ProductHttpRepository implements ProductRepository {
     return this.http
       .get<ApiResponse<Product[]>>(this.baseUrl)
       .pipe(map((response) => response.data));
+  }
+
+  getById(id: string): Observable<Product> {
+    return this.getAll().pipe(
+      map((products) => {
+        const product = products.find((candidate) => candidate.id === id);
+        if (!product) {
+          throw new ApiError(getErrorMessageForStatus(404), 404);
+        }
+        return product;
+      }),
+    );
   }
 
   create(product: Product): Observable<Product> {

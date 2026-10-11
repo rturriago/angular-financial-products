@@ -6,18 +6,14 @@ import { ProductRepository } from '../../data-access/product.repository';
 import { Product } from '../../models/product.model';
 import { buildProduct } from '../../testing/product.fixtures';
 import { ProductListPage } from './product-list.page';
+import { createProductRepositoryMock } from '../../testing/product-repository.mock';
 
 describe('ProductListPage', () => {
   let fixture: ComponentFixture<ProductListPage>;
   let repositoryMock: jest.Mocked<ProductRepository>;
 
   beforeEach(() => {
-    repositoryMock = {
-      getAll: jest.fn(),
-      create: jest.fn(),
-      update: jest.fn(),
-      existsById: jest.fn(),
-    };
+    repositoryMock = createProductRepositoryMock();
 
     TestBed.configureTestingModule({
       imports: [ProductListPage],
